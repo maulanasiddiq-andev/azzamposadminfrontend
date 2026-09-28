@@ -1,0 +1,28 @@
+<div class="accordion">
+  @for (menu of menus; track menu.category) {
+    @let isOpen = openCategory() === menu.category;
+
+    <section class="group" [class.open]="isOpen">
+      <button
+        type="button"
+        class="group-header"
+        [style.background-color]="menu.color"
+        [attr.aria-expanded]="isOpen"
+        (click)="toggle(menu.category)"
+      >
+        <span>{{ menu.category }}</span>
+        <span class="chevron" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="group-body">
+        <ul>
+          @for (item of menu.children; track item.link) {
+            <li>
+              <a [routerLink]="'/' + item.link">{{ item.title }}</a>
+            </li>
+          }
+        </ul>
+      </div>
+    </section>
+  }
+</div>
