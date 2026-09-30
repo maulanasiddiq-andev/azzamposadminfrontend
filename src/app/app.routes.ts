@@ -12,7 +12,7 @@ export const routes: Routes = [
         component: Home
     },
     {
-        path: 'admin',
-        loadChildren: () => import('./features/admin/admin.routes').then(m => m.routes)
+        path: 'tenant',
+        loadChildren: () => import('./features/tenant/tenant.routes').then(m => m.routes)
     }
 ];

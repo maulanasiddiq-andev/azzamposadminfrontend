@@ -1,0 +1,41 @@
+import { UkuranKertasPrint } from '../../enums/ukuran-kertas-print.enum';
+import { BaseModel } from '../base-model';
+
+export class Tenant extends BaseModel {
+  tenantId: string = 'tenantId';
+  kode: string;
+  nama: string;
+  alamat: string;
+  email: string;
+  kontakPerson: string;
+  telepon: string;
+  noHP: string;
+  noWA: string;
+  noRekening: string;
+  joinDate: Date;
+  telegramBotId: string;
+  telegramChatId: string;
+  userTelegram: string;
+  useSalesChannel: string;
+  useBisaDikirim: boolean;
+  useProsesStokOpaname: boolean;
+  isUseShipdeo: boolean;
+  isShowNoHpInvoice: boolean;
+  isShowNoWaInvoice: boolean;
+  timezone: string;
+  timezoneName: string;
+  ukuranKertasAlamatPengiriman: string = UkuranKertasPrint.A4Double;
+  ukuranKertasLabelPengiriman: string = UkuranKertasPrint.Custom10x10;
+  ukuranKertasPesananPenjualan: string = UkuranKertasPrint.A4Double;
+  ukuranKertasInvoicePenjualan: string = UkuranKertasPrint.A4;
+  botUserId: string;
+  botUsername: string;
+  fullDomain: string;
+  subDomain: string;
+  logo: string;
+  nPWP: string;
+  headerLaporan: string;
+  footerPrintKasir: string | null = null;
+  isShowLogoHeaderPrintKasir:boolean = false;
+  isShowLogoHeaderPrintLaporan:boolean = false;
+}

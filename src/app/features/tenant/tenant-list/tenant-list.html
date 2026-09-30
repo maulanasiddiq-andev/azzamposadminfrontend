@@ -1,0 +1,6 @@
+<p>tenant-list works!</p>
+@if (tenant) {
+    @for (item of tenant.items; track item.tenantId) {
+       <div>{{ item.nama }}</div>
+    }
+} 
