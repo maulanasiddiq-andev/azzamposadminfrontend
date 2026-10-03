@@ -14,4 +14,8 @@ export class TenantService {
     getTenants(params: any): Observable<BaseResponse<SearchResponse<Tenant>>> {
         return this.#http.get<BaseResponse<SearchResponse<Tenant>>>(this.apiUrl + "search", { params: params });
     }
+
+    getTenantById(id: string): Observable<BaseResponse<Tenant>> {
+        return this.#http.get<BaseResponse<Tenant>>(this.apiUrl + "getbyid/" + id);
+    }
 }

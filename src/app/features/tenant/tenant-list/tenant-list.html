@@ -18,6 +18,6 @@
 
 <ng-template #nameRow let-row="row" let-value="value">
     <div class="d-flex flex-column justify-content-center position-relative h-100">
-        <a class="link-detail text-primary cursor-pointer m-0" routerLink="detail/{{ row.tenantId }}">{{ value }}</a>
+        <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.tenantId }}">{{ value }}</a>
     </div>
 </ng-template>
