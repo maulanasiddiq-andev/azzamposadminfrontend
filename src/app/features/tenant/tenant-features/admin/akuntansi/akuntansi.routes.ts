@@ -9,5 +9,9 @@ export const routes: Routes = [
   {
     path: 'mapping-akun',
     loadChildren: () => import('./mapping-akun/mapping-akun.routes').then(m => m.routes)
+  },
+  {
+    path: 'akun',
+    loadChildren: () => import('./akun/akun.routes').then(m => m.routes)
   }
 ];

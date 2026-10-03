@@ -1,0 +1,19 @@
+<div class="row m-0">
+  <div class="col-6 p-2">
+    <app-info-item [title]="'Nomor Akun'" [value]="akun()?.nomorAkun"></app-info-item>
+    <app-info-item [title]="'Nama'" [value]="akun()?.nama"></app-info-item>
+    <app-info-item [title]="'Saldo'" [value]="akun()?.saldo.toString()"></app-info-item>
+    <app-info-item [title]="'Jenis Akun'" [value]="akun()?.jenisAkun.nama"></app-info-item>
+    <app-info-item [title]="'Pajak'" [value]="akun()?.pajak.nama"></app-info-item>
+    <app-info-item [title]="'Sub Akun dari'" [value]="akun()?.childOf?.nama || '-'"></app-info-item>
+    <app-info-item [title]="'Deskripsi'" [value]="akun()?.deskripsi || '-'"></app-info-item>
+  </div>
+  <div class="col-6 p-2">
+    <app-info-item-toggle [title]="'Aktif'" [value]="akun()?.recordStatus == 'Active'"></app-info-item-toggle>
+    <app-info-item-toggle [title]="'Pembayaran Penjualan'" [value]="akun()?.isForPenjualan"></app-info-item-toggle>
+    <app-info-item-toggle [title]="'Pembayaran Pembelian'" [value]="akun()?.isForPembelian"></app-info-item-toggle>
+    <app-info-item-toggle [title]="'Pembayaran Pemasukan'" [value]="akun()?.isForCashIn"></app-info-item-toggle>
+    <app-info-item-toggle [title]="'Pembayaran Pengeluaran'" [value]="akun()?.isForCashOut"></app-info-item-toggle>
+    <app-info-item-toggle [title]="'Akun Bank'" [value]="akun()?.isAkunBank"></app-info-item-toggle>
+  </div>
+</div>
