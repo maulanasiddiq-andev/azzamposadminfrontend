@@ -1,0 +1,9 @@
+<div class="row m-0">
+  <div class="col-6 p-2">
+    <app-info-item [title]="'Nama'" [value]="jenisAkun()?.nama"></app-info-item>
+    <app-info-item [title]="'Kode Awal'" [value]="jenisAkun()?.kodeAwal"></app-info-item>
+    <app-info-item [title]="'Konstanta'" [value]="jenisAkun()?.kodeConstant"></app-info-item>
+    <app-info-item [title]="'Deskripsi'" [value]="jenisAkun()?.deskripsi || '-'"></app-info-item>
+    <app-info-item-toggle [title]="'Aktif'" [value]="jenisAkun()?.recordStatus == 'Active'"></app-info-item-toggle>
+  </div>
+</div>
