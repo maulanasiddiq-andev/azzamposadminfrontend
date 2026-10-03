@@ -1,0 +1,34 @@
+<div class="p-2">
+  <app-search-bar
+    [control]="searchFilterForm.controls.searchUser"
+    placeholder="Cari User..."
+    label="Cari User" />
+</div>
+
+<app-datatable
+    id="table-user"
+    [columns]="columnTable()"
+    [columnMode]="columnModeDatatable.flex"
+    [rows]="user().items"
+    [paginationData]="paginationData()"
+    (sort)="onSortColumn($event)"
+    (entriesChange)="onEntriesChange($event)"
+    (navPositionChange)="onPaginationChange($event)"
+    [isNewLayout]="true"
+></app-datatable>
+
+<ng-template #usernameRow let-row="row" let-value="value">
+  <div class="d-flex flex-column justify-content-center position-relative h-100">
+    <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.userId }}">{{ value }}</a>
+  </div>
+</ng-template>
+
+<ng-template #statusRow let-value="value">
+  <app-status-badge [value]="value"></app-status-badge>
+</ng-template>
+
+<ng-template #lastAccessRow let-row="row" let-value="value">
+  <div class="d-flex flex-column justify-content-center position-relative h-100">
+    <span>{{ value | date: 'dd/MM/yyyy' }}</span>
+  </div>
+</ng-template>
