@@ -2,20 +2,9 @@
   <div class="row">
     <div class="col-6 pt-2">
       <div class="info-column">
-        <div class="info-item">
-          <span class="label">Nama</span>
-          <span class="value">{{ role()?.roleName }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Jumlah Akses Modul yang Diberikan</span>
-          <span class="value">{{ role()?.moduls.length }} akses modul</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Deskripsi</span>
-          <span class="value">{{ role()?.deskripsi || '-' }}</span>
-        </div>
+        <app-info-item [title]="'Kode'" [value]="role()?.roleName"></app-info-item>
+        <app-info-item [title]="'Deskripsi'" [value]="role()?.deskripsi || '-'"></app-info-item>
+        <app-info-item [title]="'Jumlah Akses Modul yang Diberikan'" [value]="role()?.moduls.length || 0 + ' akses modul'"></app-info-item>
 
         <!-- <div class="info-item">
           <span class="label">Status</span>

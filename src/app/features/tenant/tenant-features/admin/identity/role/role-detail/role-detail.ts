@@ -2,9 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoleService } from '../../../../../../../core/services/identity/role-service';
 import { Role } from '../../../../../../../core/models/identity/role';
+import { InfoItem } from '../../../../../../../shared/info-item/info-item';
+import { InfoItemToggle } from '../../../../../../../shared/info-item-toggle/info-item-toggle';
 
 @Component({
-  imports: [],
+  imports: [InfoItem, InfoItemToggle],
   selector: 'app-role-detail',
   styleUrl: './role-detail.scss',
   templateUrl: './role-detail.html',

@@ -4,9 +4,11 @@ import { Tenant } from '../../../core/models/masterdata/tenant';
 import { TenantService } from '../../../core/services/masterdata/tenant-service';
 import { DatePipe } from '@angular/common';
 import { homeMenus } from '../../../core/config/home-menu';
+import { InfoItem } from '../../../shared/info-item/info-item';
+import { InfoItemToggle } from '../../../shared/info-item-toggle/info-item-toggle';
 
 @Component({
-  imports: [DatePipe, RouterLink],
+  imports: [DatePipe, RouterLink, InfoItem, InfoItemToggle],
   selector: 'app-tenant-detail',
   styleUrl: './tenant-detail.scss',
   templateUrl: './tenant-detail.html',

@@ -1,25 +1,13 @@
 @if (user() != null) {
-  <div class="row">
-    <div class="col-6 pt-2">
-      <div class="info-column">
-        <div class="info-item">
-          <span class="label">Nama</span>
-          <span class="value">{{ user()?.username }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Deskripsi</span>
-          <span class="value">{{ user()?.deskripsi || '-' }}</span>
-        </div>
-
-        <!-- <div class="info-item">
-          <span class="label">Status</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="user()?.recordStatus" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div> -->
-      </div>
+  <div class="row m-0">
+    <div class="col-6 p-2">
+      <app-info-item [title]="'Username'" [value]="user()?.username"></app-info-item>
+      <app-info-item [title]="'Nama'" [value]="user()?.nama"></app-info-item>
+      <app-info-item [title]="'Email'" [value]="user()?.email || '-'"></app-info-item>
+      <app-info-item [title]="'Login Gagal'" [value]="(user()?.accessFailedCount || 0).toString()"></app-info-item>
+      <app-info-item-toggle [title]="'Login dengan Telegram'" [value]="user()?.isUseTelegramForLogin"></app-info-item-toggle>
+      <app-info-item [title]="'Deskripsi'" [value]="user()?.deskripsi || '-'"></app-info-item>
+      <app-info-item-toggle [title]="'Aktif'" [value]="user()?.recordStatus == 'Active'"></app-info-item-toggle>
     </div>
   </div>
 }

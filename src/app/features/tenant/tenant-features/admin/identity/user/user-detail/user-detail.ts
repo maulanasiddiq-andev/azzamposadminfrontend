@@ -2,9 +2,11 @@ import { Component, inject, signal } from '@angular/core';
 import { UserService } from '../../../../../../../core/services/identity/user-service';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../../../../../core/models/identity/user';
+import { InfoItem } from '../../../../../../../shared/info-item/info-item';
+import { InfoItemToggle } from '../../../../../../../shared/info-item-toggle/info-item-toggle';
 
 @Component({
-  imports: [],
+  imports: [InfoItem, InfoItemToggle],
   selector: 'app-user-detail',
   styleUrl: './user-detail.scss',
   templateUrl: './user-detail.html',

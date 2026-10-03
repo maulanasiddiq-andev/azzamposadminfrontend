@@ -3,124 +3,26 @@
     <div class="col-6 pt-2">
       <h1 class="page-title">Informasi Tenant</h1>
       <div class="info-column">
-        <div class="info-item">
-          <span class="label">Kode</span>
-          <span class="value">{{ tenant()?.kode }}</span>
-        </div>
+        <app-info-item [title]="'Kode'" [value]="tenant()?.kode"></app-info-item>
+        <app-info-item [title]="'Nama'" [value]="tenant()?.nama"></app-info-item>
+        <app-info-item [title]="'Email'" [value]="tenant()?.email"></app-info-item>
+        <app-info-item [title]="'No WA'" [value]="tenant()?.noWA"></app-info-item>
+        <app-info-item [title]="'Contact Person'" [value]="tenant()?.kontakPerson"></app-info-item>
+        <app-info-item [title]="'Ukuran Kertas Alamat Pengiriman'" [value]="tenant()?.ukuranKertasAlamatPengiriman"></app-info-item>
+        <app-info-item [title]="'Ukuran Kertas Label Pengiriman'" [value]="tenant()?.ukuranKertasLabelPengiriman"></app-info-item>
+        <app-info-item [title]="'Ukuran Kertas Pesanan Penjualan'" [value]="tenant()?.ukuranKertasPesananPenjualan"></app-info-item>
+        <app-info-item [title]="'Ukuran Kertas Invoice Penjualan'" [value]="tenant()?.ukuranKertasInvoicePenjualan"></app-info-item>
+        <app-info-item [title]="'Alamat'" [value]="tenant()?.alamat"></app-info-item>
+        <app-info-item [title]="'Tanggal Join'" [value]="tenant()?.joinDate | date:'dd-MM-yyyy'"></app-info-item>
 
-        <div class="info-item">
-          <span class="label">Nama</span>
-          <span class="value">{{ tenant()?.nama }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Email</span>
-          <span class="value">{{ tenant()?.email }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">No WA</span>
-          <span class="value">{{ tenant()?.noWA }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Contact Person</span>
-          <span class="value">{{ tenant()?.kontakPerson }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Ukuran Kertas Alamat Pengiriman</span>
-          <span class="value">{{ tenant()?.ukuranKertasAlamatPengiriman }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Ukuran Kertas Label Pengiriman</span>
-          <span class="value">{{ tenant()?.ukuranKertasLabelPengiriman }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Ukuran Kertas Pesanan Penjualan</span>
-          <span class="value">{{ tenant()?.ukuranKertasPesananPenjualan }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Ukuran Kertas Invoice Penjualan</span>
-          <span class="value">{{ tenant()?.ukuranKertasInvoicePenjualan }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Alamat</span>
-          <span class="value">{{ tenant()?.alamat }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Tanggal Join</span>
-          <span class="value">{{ tenant()?.joinDate | date:'dd-MM-yyyy' }}</span>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Tampilkan Logo di Header Print Kasir</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowLogoHeaderPrintKasir" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Tampilkan Logo di Header Print Laporan</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowLogoHeaderPrintLaporan" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Tampilkan No HP pada Invoice</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowNoHpInvoice" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Tampilkan No WA pada Invoice</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowNoWaInvoice" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Menggunakan Sales Channel</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useSalesChannel" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Menggunakan Shipdeo</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isUseShipdeo" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Bisa Dikirim</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useBisaDikirim" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-
-        <div class="info-item">
-          <span class="label">Proses Stok Opname</span>
-          <label class="toggle">
-            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useProsesStokOpname" />
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
+        <app-info-item-toggle [title]="'Tampilkan Logo di Header Print Kasir'" [value]="tenant()?.isShowLogoHeaderPrintKasir"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Tampilkan Logo di Header Print Laporan'" [value]="tenant()?.isShowLogoHeaderPrintLaporan"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Tampilkan No HP pada Invoice'" [value]="tenant()?.isShowNoHpInvoice"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Tampilkan No WA pada Invoice'" [value]="tenant()?.isShowNoWaInvoice"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Menggunakan Sales Channel'" [value]="tenant()?.useSalesChannel"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Menggunakan Shipdeo'" [value]="tenant()?.isUseShipdeo"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Bisa Dikirim'" [value]="tenant()?.useBisaDikirim"></app-info-item-toggle>
+        <app-info-item-toggle [title]="'Proses Stok Opname'" [value]="tenant()?.useProsesStokOpname"></app-info-item-toggle>
       </div>
     </div>
 
