@@ -1,10 +1,12 @@
 import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Tenant } from '../../../core/models/masterdata/tenant';
 import { TenantService } from '../../../core/services/masterdata/tenant-service';
+import { DatePipe } from '@angular/common';
+import { homeMenus } from '../../../core/config/home-menu';
 
 @Component({
-  imports: [],
+  imports: [DatePipe, RouterLink],
   selector: 'app-tenant-detail',
   styleUrl: './tenant-detail.scss',
   templateUrl: './tenant-detail.html',
@@ -15,6 +17,16 @@ export class TenantDetail implements OnInit, AfterViewInit {
   id = this.route.snapshot.paramMap.get('id');
 
   tenant = signal<Tenant | null>(null);
+
+  // Tenant Features Menu
+  readonly menus = homeMenus;
+  
+  // Only one category can be open at a time
+  readonly openCategory = signal<string | null>(null);
+  
+  toggle(category: string) {
+    this.openCategory.update((current) => (current === category ? null : category));
+  }
 
   ngOnInit(): void {
     this.tenant.set(null);

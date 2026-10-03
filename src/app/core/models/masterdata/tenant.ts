@@ -18,7 +18,7 @@ export class Tenant extends BaseModel {
   userTelegram: string;
   useSalesChannel: string;
   useBisaDikirim: boolean;
-  useProsesStokOpaname: boolean;
+  useProsesStokOpname: boolean;
   isUseShipdeo: boolean;
   isShowNoHpInvoice: boolean;
   isShowNoWaInvoice: boolean;

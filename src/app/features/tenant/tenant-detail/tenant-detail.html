@@ -1,2 +1,194 @@
-<p>tenant-detail works!</p>
-<p>{{ id }}</p>
+@if (tenant() != null) {
+  <div class="row m-0">
+    <div class="col-6 pt-2">
+      <h1 class="page-title">Informasi Tenant</h1>
+      <div class="info-column">
+        <div class="info-item">
+          <span class="label">Kode</span>
+          <span class="value">{{ tenant()?.kode }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Nama</span>
+          <span class="value">{{ tenant()?.nama }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Email</span>
+          <span class="value">{{ tenant()?.email }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">No WA</span>
+          <span class="value">{{ tenant()?.noWA }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Contact Person</span>
+          <span class="value">{{ tenant()?.kontakPerson }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Ukuran Kertas Alamat Pengiriman</span>
+          <span class="value">{{ tenant()?.ukuranKertasAlamatPengiriman }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Ukuran Kertas Label Pengiriman</span>
+          <span class="value">{{ tenant()?.ukuranKertasLabelPengiriman }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Ukuran Kertas Pesanan Penjualan</span>
+          <span class="value">{{ tenant()?.ukuranKertasPesananPenjualan }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Ukuran Kertas Invoice Penjualan</span>
+          <span class="value">{{ tenant()?.ukuranKertasInvoicePenjualan }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Alamat</span>
+          <span class="value">{{ tenant()?.alamat }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Tanggal Join</span>
+          <span class="value">{{ tenant()?.joinDate | date:'dd-MM-yyyy' }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Tampilkan Logo di Header Print Kasir</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowLogoHeaderPrintKasir" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Tampilkan Logo di Header Print Laporan</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowLogoHeaderPrintLaporan" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Tampilkan No HP pada Invoice</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowNoHpInvoice" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Tampilkan No WA pada Invoice</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isShowNoWaInvoice" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Menggunakan Sales Channel</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useSalesChannel" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Menggunakan Shipdeo</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.isUseShipdeo" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Bisa Dikirim</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useBisaDikirim" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Proses Stok Opname</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="tenant()?.useProsesStokOpname" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-6">
+      <div class="accordion">
+        @for (menu of menus; track menu.category) {
+          @let isOpen = openCategory() === menu.category;
+
+          <section class="group" [class.open]="isOpen">
+            <button
+              type="button"
+              class="group-header"
+              [style.background-color]="menu.color"
+              [attr.aria-expanded]="isOpen"
+              (click)="toggle(menu.category)"
+            >
+              <span>{{ menu.category }}</span>
+              <span class="chevron" aria-hidden="true">▾</span>
+            </button>
+
+            <div class="group-body">
+              <ul>
+                @for (item of menu.children; track item.link) {
+                  <li>
+                    <a [routerLink]="'/' + item.link">{{ item.title }}</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          </section>
+        }
+      </div>
+    </div> -->
+  
+    <div class="col-6 pt-2">
+      <h1 class="page-title">Fitur Tenant</h1>
+      <div class="accordion">
+        @for (menu of menus; track menu.category) {
+          @let isOpen = openCategory() === menu.category;
+
+          <section class="group" [class.open]="isOpen" [style.--accent]="menu.color">
+            <button
+              type="button"
+              class="group-header"
+              [attr.aria-expanded]="isOpen"
+              (click)="toggle(menu.category)"
+            >
+              <span class="dot" aria-hidden="true"></span>
+              <span class="title">{{ menu.category }}</span>
+              <span class="count">{{ menu.children.length }}</span>
+              <svg class="chevron" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+
+            <div class="group-body">
+              <ul>
+                @for (item of menu.children; track item.link) {
+                  <li>
+                    <a [routerLink]="'/' + item.link">{{ item.title }}</a>
+                  </li>
+                }
+              </ul>
+            </div>
+          </section>
+        }
+      </div>
+    </div>
+  </div>
+}
