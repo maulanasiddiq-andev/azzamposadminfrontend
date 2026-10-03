@@ -11,11 +11,10 @@ import { Datatable } from '../../../../../../../shared/datatable/datatable';
 import { LocalStorageService } from '../../../../../../../core/services/local-storage-service';
 import { debounceTime } from 'rxjs';
 import { SearchBar } from '../../../../../../../shared/search-bar/search-bar';
-import { NgClass } from '@angular/common';
 import { StatusBadge } from '../../../../../../../shared/status-badge/status-badge';
 
 @Component({
-  imports: [Datatable, RouterLink, SearchBar, NgClass, StatusBadge],
+  imports: [Datatable, RouterLink, SearchBar, StatusBadge],
   selector: 'app-role-list',
   styleUrl: './role-list.scss',
   templateUrl: './role-list.html',
