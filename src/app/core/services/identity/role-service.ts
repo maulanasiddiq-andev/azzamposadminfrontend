@@ -15,7 +15,7 @@ export class RoleService {
       return this.#http.get<BaseResponse<SearchResponse<Role>>>(this.apiUrl + tenantId + "/search", { params: params });
   }
 
-  getRoleById(id: string): Observable<BaseResponse<Role>> {
-      return this.#http.get<BaseResponse<Role>>(this.apiUrl + "getbyid/" + id);
+  getRoleById(roleId: string, tenantId: string): Observable<BaseResponse<Role>> {
+      return this.#http.get<BaseResponse<Role>>(this.apiUrl + tenantId + "/getbyidwithmodul/" + roleId);
   }
 }

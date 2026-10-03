@@ -1,1 +1,30 @@
-<p>role-detail works!</p>
+@if (role() != null) {
+  <div class="row">
+    <div class="col-6 pt-2">
+      <div class="info-column">
+        <div class="info-item">
+          <span class="label">Nama</span>
+          <span class="value">{{ role()?.roleName }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Jumlah Akses Modul yang Diberikan</span>
+          <span class="value">{{ role()?.moduls.length }} akses modul</span>
+        </div>
+
+        <div class="info-item">
+          <span class="label">Deskripsi</span>
+          <span class="value">{{ role()?.deskripsi || '-' }}</span>
+        </div>
+
+        <!-- <div class="info-item">
+          <span class="label">Status</span>
+          <label class="toggle">
+            <input type="checkbox" class="toggle-input" disabled [checked]="role()?.recordStatus" />
+            <span class="toggle-slider"></span>
+          </label>
+        </div> -->
+      </div>
+    </div>
+  </div>
+}
