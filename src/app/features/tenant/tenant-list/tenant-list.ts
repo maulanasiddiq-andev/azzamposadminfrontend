@@ -11,9 +11,10 @@ import { RouterLink } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { LocalStorageService } from '../../../core/services/local-storage-service';
 import { SearchBar } from '../../../shared/search-bar/search-bar';
+import { NgClass } from '@angular/common';
 
 @Component({
-  imports: [ReactiveFormsModule, Datatable, RouterLink, SearchBar],
+  imports: [ReactiveFormsModule, Datatable, RouterLink, SearchBar, NgClass],
   selector: 'app-tenant-list',
   styleUrl: './tenant-list.scss',
   templateUrl: './tenant-list.html',
@@ -38,19 +39,20 @@ export class TenantList implements OnInit {
 
   // PropertiRows
   kodeRow = viewChild.required<TemplateRef<any>>('kodeRow');
+  statusRow = viewChild.required<TemplateRef<any>>('statusRow');
 
   columnTable = computed(() =>[
     {
       name: "Kode",
-      prop: "kode",
       // prop is referring to the properties fetched from the API response
+      prop: "kode",
       sortBy: "kode",
       flexGrow: 1,
       cellTemplate: this.kodeRow(),
       searchable: true,
       orderable: false,
       resizeable: false,
-      sortable: true,
+      sortable: false,
       canAutoResize: true,
       search: {
           value: "",
@@ -80,8 +82,24 @@ export class TenantList implements OnInit {
       searchable: true,
       orderable: false,
       resizeable: false,
-      sortable: false,
+      sortable: true,
       canAutoResize: true,
+      search: {
+          value: "",
+          regex: false
+      }
+    },
+    {
+      name: "Status",
+      prop: "recordStatus",
+      sortBy: "recordstatus",
+      flexGrow: 1,
+      searchable: true,
+      orderable: false,
+      resizeable: false,
+      sortable: true,
+      canAutoResize: true,
+      cellTemplate: this.statusRow(),
       search: {
           value: "",
           regex: false
@@ -141,6 +159,7 @@ export class TenantList implements OnInit {
     this.#tenantService.getTenants(this.tenantSearchParams)
       .subscribe((result) => {
         if (result.succeeded) {
+          console.log(result.data)
           this.tenant.set(result.data);
           this.paginationData.set(new Page(result.data.totalItem, result.data.pageSize, result.data.pageSize, result.data.currentPage));
         }

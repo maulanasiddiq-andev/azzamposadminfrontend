@@ -28,3 +28,9 @@
     <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.tenantId }}">{{ value }}</a>
   </div>
 </ng-template>
+
+<ng-template #statusRow let-value="value">
+  <span class="badge status-badge" [ngClass]="value == 'Active' ? 'status-active' : 'status-deleted'">
+    {{ value == 'Active' ? 'Active' : 'Deleted' }}
+  </span>
+</ng-template>

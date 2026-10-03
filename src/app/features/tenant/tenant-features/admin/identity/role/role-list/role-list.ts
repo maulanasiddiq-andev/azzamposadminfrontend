@@ -11,9 +11,10 @@ import { Datatable } from '../../../../../../../shared/datatable/datatable';
 import { LocalStorageService } from '../../../../../../../core/services/local-storage-service';
 import { debounceTime } from 'rxjs';
 import { SearchBar } from '../../../../../../../shared/search-bar/search-bar';
+import { NgClass } from '@angular/common';
 
 @Component({
-  imports: [Datatable, RouterLink, SearchBar],
+  imports: [Datatable, RouterLink, SearchBar, NgClass],
   selector: 'app-role-list',
   styleUrl: './role-list.scss',
   templateUrl: './role-list.html',
@@ -42,7 +43,7 @@ export class RoleList {
 
   // PropertiRows
   nameRow = viewChild.required<TemplateRef<any>>('nameRow');
-
+  statusRow = viewChild.required<TemplateRef<any>>('statusRow');
   columnTable = computed(() =>[
     {
       name: "Nama",
@@ -69,13 +70,29 @@ export class RoleList {
       searchable: true,
       orderable: false,
       resizeable: false,
-      sortable: false,
+      sortable: true,
       canAutoResize: true,
       search: {
           value: "",
           regex: false
       }
     },
+    {
+      name: "Status",
+      prop: "recordStatus",
+      sortBy: "recordstatus",
+      flexGrow: 1,
+      searchable: true,
+      orderable: false,
+      resizeable: false,
+      sortable: true,
+      canAutoResize: true,
+      cellTemplate: this.statusRow(),
+      search: {
+          value: "",
+          regex: false
+      }
+    }
   ])
 
   ngOnInit(): void {
