@@ -1,0 +1,9 @@
+<div class="row m-0">
+  <div class="col-6 p-2">
+    <app-info-item [title]="'Kode'" [value]="mappingAkun()?.kode"></app-info-item>
+    <app-info-item [title]="'Mapping Akun'" [value]="mappingAkun()?.mappingConstant"></app-info-item>
+    <app-info-item [title]="'Akun'" [value]="mappingAkun()?.akun.nama"></app-info-item>
+    <app-info-item [title]="'Deskripsi'" [value]="mappingAkun()?.deskripsi || '-'"></app-info-item>
+    <app-info-item-toggle [title]="'Aktif'" [value]="mappingAkun()?.recordStatus == 'Active'"></app-info-item-toggle>
+  </div>
+</div>

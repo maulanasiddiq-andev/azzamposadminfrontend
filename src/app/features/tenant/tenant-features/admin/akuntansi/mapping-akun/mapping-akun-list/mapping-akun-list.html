@@ -1,0 +1,28 @@
+<div class="p-2">
+  <app-search-bar
+    [control]="searchFilterForm.controls.searchMappingAkun"
+    placeholder="Cari Mapping Akun..."
+    label="Cari Mapping Akun" />
+</div>
+
+<app-datatable
+    id="table-mapping-akun"
+    [columns]="columnTable()"
+    [columnMode]="columnModeDatatable.flex"
+    [rows]="mappingAkun().items"
+    [paginationData]="paginationData()"
+    (sort)="onSortColumn($event)"
+    (entriesChange)="onEntriesChange($event)"
+    (navPositionChange)="onPaginationChange($event)"
+    [isNewLayout]="true"
+></app-datatable>
+
+<ng-template #kodeRow let-row="row" let-value="value">
+  <div class="d-flex flex-column justify-content-center position-relative h-100">
+    <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.mappingAkunId }}">{{ value }}</a>
+  </div>
+</ng-template>
+
+<ng-template #statusRow let-value="value">
+  <app-status-badge [value]="value"></app-status-badge>
+</ng-template>
