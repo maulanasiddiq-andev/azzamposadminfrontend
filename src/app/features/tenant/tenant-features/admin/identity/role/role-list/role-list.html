@@ -1,0 +1,17 @@
+<app-datatable
+    id="table-user"
+    [columns]="columnTable()"
+    [columnMode]="columnModeDatatable.flex"
+    [rows]="role().items"
+    [paginationData]="paginationData()"
+    (sort)="onSortColumn($event)"
+    (entriesChange)="onEntriesChange($event)"
+    (navPositionChange)="onPaginationChange($event)"
+    [isNewLayout]="true"
+></app-datatable>
+
+<ng-template #nameRow let-row="row" let-value="value">
+    <div class="d-flex flex-column justify-content-center position-relative h-100">
+        <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.roleId }}">{{ value }}</a>
+    </div>
+</ng-template>

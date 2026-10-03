@@ -181,7 +181,7 @@
               <ul>
                 @for (item of menu.children; track item.link) {
                   <li>
-                    <a [routerLink]="'/' + item.link">{{ item.title }}</a>
+                    <a [routerLink]="item.link">{{ item.title }}</a>
                   </li>
                 }
               </ul>

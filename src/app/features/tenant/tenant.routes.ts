@@ -10,5 +10,9 @@ export const routes: Routes = [
     {
         path: ':id',
         component: TenantDetail
-    }
+    },
+    {
+        path: ':id/admin',
+        loadChildren: () => import('./tenant-features/admin/admin.routes').then(m => m.routes)
+    },
 ];
