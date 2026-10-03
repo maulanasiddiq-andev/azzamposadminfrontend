@@ -12,9 +12,10 @@ import { LocalStorageService } from '../../../../../../../core/services/local-st
 import { debounceTime } from 'rxjs';
 import { SearchBar } from '../../../../../../../shared/search-bar/search-bar';
 import { NgClass } from '@angular/common';
+import { StatusBadge } from '../../../../../../../shared/status-badge/status-badge';
 
 @Component({
-  imports: [Datatable, RouterLink, SearchBar, NgClass],
+  imports: [Datatable, RouterLink, SearchBar, NgClass, StatusBadge],
   selector: 'app-role-list',
   styleUrl: './role-list.scss',
   templateUrl: './role-list.html',

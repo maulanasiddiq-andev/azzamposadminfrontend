@@ -12,9 +12,10 @@ import { debounceTime } from 'rxjs';
 import { LocalStorageService } from '../../../core/services/local-storage-service';
 import { SearchBar } from '../../../shared/search-bar/search-bar';
 import { NgClass } from '@angular/common';
+import { StatusBadge } from '../../../shared/status-badge/status-badge';
 
 @Component({
-  imports: [ReactiveFormsModule, Datatable, RouterLink, SearchBar, NgClass],
+  imports: [ReactiveFormsModule, Datatable, RouterLink, SearchBar, NgClass, StatusBadge],
   selector: 'app-tenant-list',
   styleUrl: './tenant-list.scss',
   templateUrl: './tenant-list.html',

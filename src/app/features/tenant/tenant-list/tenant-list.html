@@ -30,7 +30,5 @@
 </ng-template>
 
 <ng-template #statusRow let-value="value">
-  <span class="badge status-badge" [ngClass]="value == 'Active' ? 'status-active' : 'status-deleted'">
-    {{ value == 'Active' ? 'Active' : 'Deleted' }}
-  </span>
+  <app-status-badge [value]="value"></app-status-badge>
 </ng-template>
