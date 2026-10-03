@@ -1,1 +1,184 @@
 /* You can add global styles to this file, and also import other style files */
+/* ----------------------------------------------
+   Styling Modal ngbPagination
+   ---------------------------------------------- */
+
+.pagination {
+  --bs-pagination-padding-x: 8px !important;
+  --bs-pagination-padding-y: 2px !important;
+  --bs-pagination-margin-x: 8px !important;
+  --bs-pagination-border-color: transparent !important;
+  --bs-pagination-font-size: 14px !important;
+  --bs-pagination-disabled-border-color: transparent !important;
+  --bs-pagination-disabled-font-size: 14px !important;
+  --bs-pagination-hover-color: var(--ct-pagination-color) !important;
+  --bs-pagination-hover-bg: transparent !important;
+  --bs-pagination-hover-border-color: transparent !important;
+  margin-top: 24px !important;
+
+  .page-item {
+    margin: 0 5px !important;
+    border-radius: 100% !important;
+
+    i {
+      width: 18px !important;
+      height: 18px !important;
+    }
+
+    :hover {
+      border-radius: 100% !important;
+    }
+
+    .datatable-icon-right {
+      width: 18px !important;
+      height: 18px !important;
+    }
+  }
+
+  .page-link {
+    border-radius: 100% !important;
+  }
+}
+
+.page-link.active,
+.active>.page-link {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: var(--bs-pagination-active-bg);
+  border-color: var(--bs-pagination-active-border-color);
+  border-radius: 100%;
+}
+
+/* ----------------------------------------------
+   Styling Datatable
+   ---------------------------------------------- */
+
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+  color: #212121 !important;
+  white-space: pre-wrap !important;
+}
+
+//.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell:last-child {
+//    padding: 0 !important;
+//}
+
+.ngx-datatable .datatable-header .datatable-header-cell {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ngx-datatable .datatable-header .datatable-header-cell .sort-btn {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  float: right !important;
+}
+
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  width: inherit !important;
+}
+
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row.datatable-row-even {
+  background-color: #EFF2F5 !important;
+}
+
+.datatable-body-cell-label {
+  height: 100% !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer {
+  background-color: #fff !important;
+  color: #212121 !important;
+}
+
+.ngx-datatable .datatable-footer .datatable-footer-inner {
+  display: flex !important;
+  justify-content: flex-end !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer .page-count {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled).active a,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager ul li:not(.disabled):hover a {
+  background-color: #727cf5 !important;
+  border-radius: 100% !important;
+  color: #fff !important;
+}
+
+.ngx-datatable .datatable-footer .datatable-pager .pager li a {
+  color: #212121 !important;
+  width: 24px !important;
+  height: 24px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .pager ul li {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center !important;
+}
+
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .datatable-icon-right {
+  align-self: center !important;
+}
+
+// TODO: All Icon in Datatables
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .datatable-icon-left,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .datatable-icon-skip,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .datatable-icon-right,
+.ngx-datatable.bootstrap .datatable-footer .datatable-pager .datatable-icon-prev {
+  font-size: 18px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.ngx-datatable .datatable-body .datatable-body-row>div {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+.ngx-datatable .datatable-body .datatable-row-detail {
+  overflow-y: visible !important;
+}
+
+@media screen and (max-width: 980px) {
+  .ngx-datatable .datatable-footer {
+    overflow: visible !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+  }
+
+  .ngx-datatable .datatable-footer .datatable-footer-inner {
+    display: block !important;
+    height: auto !important;
+    width: 100% !important;
+    padding: 24px 0 14px 0 !important;
+  }
+
+  // .ngx-datatable .datatable-body .datatable-row-detail {
+  //     overflow-y: visible !important;
+  // }
+}

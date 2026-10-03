@@ -12,6 +12,7 @@
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "noImplicitAny": false,
     "target": "ES2022",
     "module": "preserve"
   },

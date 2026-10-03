@@ -1,0 +1,136 @@
+.custom-datatable-footer {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.custom-datatable-footer-paginator {
+  display: flex !important;
+  justify-content: flex-end !important;
+  width: 100% !important;
+}
+
+.table-border {
+    border-top: 1px solid #DEE2E6;
+}
+
+.ri-add-circle-fill {
+  color: #727cf5;
+  background-color: transparent;
+  font-size: 1.5em;
+  outline: 1px solid #98a6ad;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 21px !important;
+  height: 21px !important;
+  margin-top: 10px;
+}
+
+.ri-indeterminate-circle-fill{
+  color: red;
+  background-color: transparent;
+  font-size: 1.5em;
+  outline: 1px solid #98a6ad;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.border-bottom-1{
+  border-bottom: 1px solid #8f8f8f;
+}
+
+.page-count {
+  flex: unset !important;
+  padding: 0 0 0 20px !important;
+}
+
+datatable-pager.datatable-pager {
+  flex: unset!important;
+}
+
+::ng-deep .ngx-datatable.material .datatable-body .datatable-row-detail {
+  background: #fff!important;
+  padding: 0px;
+}
+
+
+// start responsive mobile
+
+.mobile-table-header  {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 1280px) {
+  .mobile-table-header  {
+    width: 200px !important;
+  }
+
+  .mobile-table-cell {
+    width: 100% !important;
+    text-align: left !important;
+    margin-left: 35px !important;
+  }
+  
+}
+
+@media screen and (max-width: 992px) {
+
+  .mobile-table-cell {
+    margin-left: 35px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  .mobile-table-cell {
+    margin-left: 35px !important;;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .mobile-table-header  {
+    width: 140px !important;
+  }
+
+  .mobile-table-cell {
+    width: 100% !important;
+    text-align: left !important;
+    margin-left: 35px !important;
+  }
+}
+
+// end responsive mobile
+
+@media screen and (max-width: 980px) {
+  .custom-datatable-footer {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-datatable-footer-paginator {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+  }
+
+  .page-count {
+    height: 40px !important;
+  }
+
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

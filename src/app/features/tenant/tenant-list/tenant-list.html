@@ -1,6 +1,23 @@
-<p>tenant-list works!</p>
-@if (tenant) {
-    @for (item of tenant.items; track item.tenantId) {
-       <div>{{ item.nama }}</div>
-    }
-} 
+<!-- <p>tenant-list works!</p> -->
+<!-- @if (tenant(); as t) {
+  @for (item of t.items; track item.tenantId) {
+    <div>{{ item.nama }}</div>
+  }
+} -->
+<app-datatable
+    id="table-user"
+    [columns]="columnTable()"
+    [columnMode]="columnModeDatatable.flex"
+    [rows]="tenant().items"
+    [paginationData]="paginationData()"
+    (sort)="onSortColumn($event)"
+    (entriesChange)="onEntriesChange($event)"
+    (navPositionChange)="onPaginationChange($event)"
+    [isNewLayout]="true"
+></app-datatable>
+
+<ng-template #nameRow let-row="row" let-value="value">
+    <div class="d-flex flex-column justify-content-center position-relative h-100">
+        <a class="link-detail text-primary cursor-pointer m-0" routerLink="detail/{{ row.tenantId }}">{{ value }}</a>
+    </div>
+</ng-template>

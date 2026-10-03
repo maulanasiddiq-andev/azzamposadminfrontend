@@ -1,0 +1,439 @@
+<!-- ===== Reusable fragments (plain markup only; the columns themselves stay
+     direct children of <ngx-datatable> so its content queries can find them) ===== -->
+
+<!-- header: title + sort icon -->
+<ng-template #headerCell let-col>
+  <span class="w-100">{{ col.name }}</span>
+  @if (col.sortable) {
+    <span
+      (click)="sorting(col)"
+      class="sort-btn"
+      [class.datatable-icon-sort-unset]="sortBy() !== col.sortBy"
+      [class.sort-asc]="sortDir() === 'asc'"
+      [class.datatable-icon-up]="sortDir() === 'asc'"
+      [class.sort-desc]="sortDir() === 'desc'"
+      [class.datatable-icon-down]="sortDir() === 'desc'"
+    ></span>
+  }
+</ng-template>
+
+<!-- body cell -->
+<ng-template #bodyCell let-col let-row="row">
+  @if (col.justifyContentBody) {
+    <div
+      class="d-flex align-items-center h-100"
+      [ngClass]="{
+        'justify-content-end': col.justifyContentBody === 'end',
+        'justify-content-center': col.justifyContentBody === 'center'
+      }"
+    >
+      {{ showValue(row, col.prop) }}
+    </div>
+  } @else if (!col.cellTemplate) {
+    <div class="d-flex align-items-center h-100">
+      {{ showValue(row, col.prop) }}
+    </div>
+  } @else {
+    <ng-container
+      [ngTemplateOutlet]="col.cellTemplate"
+      [ngTemplateOutletContext]="{ row: row, value: row[col.prop] }"
+    />
+  }
+</ng-template>
+
+<!-- one line in the expanded row detail (hidden columns) -->
+<ng-template #hiddenItem let-col let-row="row" let-last="last">
+  <div class="d-flex align-items-center py-1" [class.border-bottom-1]="!last">
+    <div class="mobile-table-header">
+      <div class="d-inline-block fw-bold font-13">{{ col.name }}</div>
+    </div>
+    <div class="font-13 mobile-table-cell">
+      @if (!col.cellTemplate) {
+        {{ showValue(row, col.prop) }}
+      } @else {
+        <ng-container
+          [ngTemplateOutlet]="col.cellTemplate"
+          [ngTemplateOutletContext]="{ row: row, value: row[col.prop] }"
+        />
+      }
+    </div>
+  </div>
+</ng-template>
+
+<!-- ===== sticky header ===== -->
+<!-- @if (isSticky() && !isChatLayout()) {
+  <div
+    class="position-fixed d-md-block d-sm-none d-none"
+    [ngClass]="{
+      'sticky-header-new-layout': isNewLayout(),
+      'sticky-header-old-layout border-top': !isNewLayout()
+    }"
+  >
+    <ngx-datatable
+      id="datatable-id"
+      #stickyTable
+      class="bootstrap material selection-cell fullscreen expandable responsive"
+      [columnMode]="columnMode()"
+      [headerHeight]="50"
+      [footerHeight]="0"
+      [rowHeight]="0"
+      [rows]="[]"
+      [groupRowsBy]="groupRowsBy()"
+      [externalPaging]="true"
+      [scrollbarH]="scrollBarH()"
+      [scrollbarV]="scrollBarV()"
+      [count]="paginationData().count"
+      [offset]="paginationData().offset"
+      [limit]="paginationData().limit"
+      [externalSorting]="true"
+      [sorts]="sorts"
+      [sortType]="sortType()"
+      [selectionType]="selectionType()"
+      [selected]="selected"
+      (resize)="onResize($event)"
+      (page)="onSetPage($event)"
+      (activate)="onActivate($event)"
+      [rowClass]="getRowClass"
+    >
+      @if (isCheckboxMode()) {
+        <ngx-datatable-column
+          [width]="50"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        >
+          <ng-template ngx-datatable-header-template>
+            <input
+              type="checkbox"
+              class="cursor-pointer"
+              [checked]="allRowsSelected()"
+              (change)="onCheckAllRow($event)"
+            />
+          </ng-template>
+        </ngx-datatable-column>
+      }
+
+      @if (hiddenColumns().length > 0) {
+        <ngx-datatable-column
+          [width]="40"
+          [resizeable]="false"
+          [sortable]="false"
+          [draggable]="false"
+          [canAutoResize]="false"
+        />
+      }
+
+      @for (col of displayColumns(); track col.name) {
+        @if (!col.roleModulName) {
+          <ngx-datatable-column
+            [name]="col.name"
+            [prop]="col.sortBy"
+            [width]="col.width"
+            [flexGrow]="col.flexGrow"
+            [minWidth]="col.minWidth"
+            [maxWidth]="col.maxWidth"
+            [headerClass]="col.headerClass"
+            [resizeable]="false"
+            [draggable]="false"
+            [canAutoResize]="true"
+            [sortable]="false"
+          >
+            <ng-template ngx-datatable-header-template>
+              <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+            </ng-template>
+          </ngx-datatable-column>
+        } @else {
+          @if (col.hasPermission) {
+            <ng-container *appHasPermission="col.roleModulName">
+            <ng-container>
+              <ngx-datatable-column
+                [name]="col.name"
+                [prop]="col.sortBy"
+                [width]="col.width"
+                [flexGrow]="col.flexGrow"
+                [minWidth]="col.minWidth"
+                [maxWidth]="col.maxWidth"
+                [headerClass]="col.headerClass"
+                [resizeable]="false"
+                [draggable]="false"
+                [canAutoResize]="true"
+                [sortable]="false"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+          }
+          @if (col.hasPermissionExcept) {
+            <ng-container>
+              <ngx-datatable-column
+                [name]="col.name"
+                [prop]="col.sortBy"
+                [width]="col.width"
+                [flexGrow]="col.flexGrow"
+                [minWidth]="col.minWidth"
+                [maxWidth]="col.maxWidth"
+                [headerClass]="col.headerClass"
+                [resizeable]="false"
+                [draggable]="false"
+                [canAutoResize]="true"
+                [sortable]="false"
+              >
+                <ng-template ngx-datatable-header-template>
+                  <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+                </ng-template>
+              </ngx-datatable-column>
+            </ng-container>
+          }
+        }
+      }
+    </ngx-datatable>
+  </div>
+} -->
+
+<!-- ===== main table ===== -->
+<div class="dataTables_wrapper table-border">
+  <ngx-datatable
+    id="datatable-id"
+    #tableData
+    class="bootstrap material selection-cell fullscreen expandable responsive"
+    [columnMode]="columnMode()"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [rows]="rows()"
+    [groupRowsBy]="groupRowsBy()"
+    [externalPaging]="true"
+    [scrollbarH]="scrollBarH()"
+    [scrollbarV]="scrollBarV()"
+    [count]="paginationData().count"
+    [offset]="paginationData().offset"
+    [limit]="paginationData().limit"
+    [externalSorting]="true"
+    [sorts]="sorts"
+    [sortType]="sortType()"
+    [selectionType]="selectionType()"
+    [selected]="selected"
+    (resize)="onResize($event)"
+    (page)="onSetPage($event)"
+    (activate)="onActivate($event)"
+    [rowClass]="getRowClass"
+  >
+    <!-- checkbox column -->
+    @if (isCheckboxMode()) {
+      <ngx-datatable-column
+        [width]="50"
+        [resizeable]="false"
+        [sortable]="false"
+        [draggable]="false"
+        [canAutoResize]="false"
+      >
+        <ng-template ngx-datatable-header-template>
+          <input
+            type="checkbox"
+            class="cursor-pointer"
+            [checked]="allRowsSelected()"
+            (change)="onCheckAllRow($event)"
+          />
+        </ng-template>
+
+        <ng-template ngx-datatable-cell-template let-row="row">
+          <div class="checkbox-container">
+            <input type="checkbox" class="cursor-pointer" [(ngModel)]="row.selected" />
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    }
+
+    <!-- expand/collapse toggle column (only when some columns are hidden) -->
+    @if (hiddenColumns().length > 0) {
+      <ngx-datatable-column
+        [width]="40"
+        [resizeable]="false"
+        [sortable]="false"
+        [draggable]="false"
+        [canAutoResize]="false"
+      >
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <div>
+              <i
+                [class.ri-add-circle-fill]="!expanded"
+                [class.ri-indeterminate-circle-fill]="expanded"
+                (click)="toggleExpandRow(row)"
+              ></i>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    }
+
+    <!-- row detail: shows the columns that don't fit -->
+    <ngx-datatable-row-detail [rowHeight]="$any('auto')">
+      <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+        @if (hiddenColumns().length > 0) {
+          <div style="margin-left: 40px">
+            @for (col of hiddenColumns(); track col.name; let last = $last) {
+              @if (!col.roleModulName) {
+                <ng-container
+                  *ngTemplateOutlet="hiddenItem; context: { $implicit: col, row: row, last: last }"
+                />
+              } @else {
+                @if (col.hasPermission) {
+                  <!-- <ng-container *appHasPermission="col.roleModulName"> -->
+                  <ng-container>
+                    <ng-container
+                      *ngTemplateOutlet="hiddenItem; context: { $implicit: col, row: row, last: last }"
+                    />
+                  </ng-container>
+                }
+                @if (col.hasPermissionExcept) {
+                  <!-- <ng-container *appHasPermissionExcept="[col.roleModulName]"> -->
+                  <ng-container>
+                    <ng-container
+                      *ngTemplateOutlet="hiddenItem; context: { $implicit: col, row: row, last: last }"
+                    />
+                  </ng-container>
+                }
+              }
+            }
+          </div>
+        }
+      </ng-template>
+    </ngx-datatable-row-detail>
+
+    <!-- data columns -->
+    @for (col of displayColumns(); track col.name) {
+      @if (!col.roleModulName) {
+        <ngx-datatable-column
+          [name]="col.name"
+          [prop]="col.sortBy"
+          [width]="col.width"
+          [flexGrow]="col.flexGrow"
+          [minWidth]="col.minWidth"
+          [maxWidth]="col.maxWidth"
+          [headerClass]="col.headerClass"
+          [resizeable]="false"
+          [draggable]="false"
+          [canAutoResize]="true"
+          [sortable]="false"
+        >
+          <ng-template ngx-datatable-header-template>
+            <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+          </ng-template>
+          <ng-template ngx-datatable-cell-template let-row="row">
+            <ng-container *ngTemplateOutlet="bodyCell; context: { $implicit: col, row: row }" />
+          </ng-template>
+        </ngx-datatable-column>
+      } @else {
+        @if (col.hasPermission) {
+          <!-- <ng-container *appHasPermission="col.roleModulName"> -->
+          <ng-container>
+            <ngx-datatable-column
+              [name]="col.name"
+              [prop]="col.sortBy"
+              [width]="col.width"
+              [flexGrow]="col.flexGrow"
+              [minWidth]="col.minWidth"
+              [maxWidth]="col.maxWidth"
+              [headerClass]="col.headerClass"
+              [resizeable]="false"
+              [draggable]="false"
+              [canAutoResize]="true"
+              [sortable]="false"
+            >
+              <ng-template ngx-datatable-header-template>
+                <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <ng-container *ngTemplateOutlet="bodyCell; context: { $implicit: col, row: row }" />
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+        }
+        @if (col.hasPermissionExcept) {
+          <!-- <ng-container *appHasPermissionExcept="[col.roleModulName]"> -->
+          <ng-container>
+            <ngx-datatable-column
+              [name]="col.name"
+              [prop]="col.sortBy"
+              [width]="col.width"
+              [flexGrow]="col.flexGrow"
+              [minWidth]="col.minWidth"
+              [maxWidth]="col.maxWidth"
+              [headerClass]="col.headerClass"
+              [resizeable]="false"
+              [draggable]="false"
+              [canAutoResize]="true"
+              [sortable]="false"
+            >
+              <ng-template ngx-datatable-header-template>
+                <ng-container *ngTemplateOutlet="headerCell; context: { $implicit: col }" />
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <ng-container *ngTemplateOutlet="bodyCell; context: { $implicit: col, row: row }" />
+              </ng-template>
+            </ngx-datatable-column>
+          </ng-container>
+        }
+      }
+    }
+
+    <!-- footer -->
+    <ngx-datatable-footer>
+      <ng-template
+        ngx-datatable-footer-template
+        let-rowCount="rowCount"
+        let-pageSize="pageSize"
+        let-selectedCount="selectedCount"
+        let-curPage="curPage"
+        let-offset="offset"
+      >
+        @if (isShowHeader()) {
+          <div class="custom-datatable-footer d-flex">
+            <div class="custom-datatable-footer-paginator d-flex flex-wrap justify-content-end">
+              <div class="d-flex flex-wrap justify-content-center">
+                <div class="d-flex align-items-center">
+                  <label class="d-block fw-normal" for="entries">Items per page:</label>
+                  <select
+                    id="entries"
+                    style="width: fit-content"
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm mx-2"
+                    (change)="onEntriesChange($event)"
+                  >
+                    @for (size of pageSizes(); track size) {
+                      <option [value]="size" [selected]="entries() === size">{{ size }}</option>
+                    }
+                  </select>
+                </div>
+                <div class="page-count d-flex justify-content-center align-items-center">
+                  <span>
+                    {{ (curPage - 1) * pageSize + 1 }} -
+                    {{
+                      rowCount < entries()
+                        ? curPage * rowCount
+                        : curPage * entries() < rowCount
+                        ? curPage * entries()
+                        : rowCount
+                    }}
+                    of {{ rowCount?.toLocaleString() }}
+                  </span>
+                </div>
+              </div>
+              <ngx-datatable-pager
+                style="flex: 1 1 auto"
+                [hidden]="!(rowCount / pageSize > 1)"
+                [hidden]="!(rowCount / pageSize > 1)"
+                /* (change)="tableData.onFooterPage($event)" */
+              />
+            </div>
+          </div>
+        }
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>
