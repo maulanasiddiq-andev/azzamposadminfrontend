@@ -8,9 +8,12 @@ import { SearchParams } from '../../../../../../../core/models/filters/search-pa
 import { Page } from '../../../../../../../shared/datatable/datatable.model';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Datatable } from '../../../../../../../shared/datatable/datatable';
+import { LocalStorageService } from '../../../../../../../core/services/local-storage-service';
+import { debounceTime } from 'rxjs';
+import { SearchBar } from '../../../../../../../shared/search-bar/search-bar';
 
 @Component({
-  imports: [Datatable, RouterLink],
+  imports: [Datatable, RouterLink, SearchBar],
   selector: 'app-role-list',
   styleUrl: './role-list.scss',
   templateUrl: './role-list.html',
@@ -18,26 +21,26 @@ import { Datatable } from '../../../../../../../shared/datatable/datatable';
 export class RoleList {
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #roleService = inject(RoleService);
+  readonly #localStorage = inject(LocalStorageService);
 
   // Tenant ID
   private route = inject(ActivatedRoute);
   tenantId = this.route.snapshot.paramMap.get('id');
 
   readonly searchFilterForm = this.#fb.group({
-    searchUser: '',
+    searchRole: '',
     showInActive: false,
   });
   
   columnModeDatatable = ColumnMode;
   // roleModulName = RoleModulName;
-  // columnTable: any[] = [];
   role = signal<SearchResponse<Role>>(new SearchResponse<Role>());
   // showFilter = false;
 
   roleSearchParams = new SearchParams();
   paginationData = signal(new Page(0));
 
-  // //PropertiRows
+  // PropertiRows
   nameRow = viewChild.required<TemplateRef<any>>('nameRow');
 
   columnTable = computed(() =>[
@@ -57,40 +60,48 @@ export class RoleList {
           value: "",
           regex: false
       }
-    }
+    },
+    {
+      name: "Deskripsi",
+      prop: "deskripsi",
+      sortBy: "deskripsi",
+      flexGrow: 4,
+      searchable: true,
+      orderable: false,
+      resizeable: false,
+      sortable: false,
+      canAutoResize: true,
+      search: {
+          value: "",
+          regex: false
+      }
+    },
   ])
 
   ngOnInit(): void {
-    // this.role = new SearchResponse<Role>();
+    this.roleSearchParams.sortBy = 'nama';
 
-    // this.searchFilterForm = this.formBuilder.group({
-    //   searchUser: '',
-    //   showInActive: false
-    // });
+    const jsonSearch = this.#localStorage.getItem('roleSearchParams');
 
-    // this.roleSearchParams.sortBy = 'username';
+    if (jsonSearch != undefined && jsonSearch != null) {
+      this.roleSearchParams = JSON.parse(jsonSearch) as SearchParams;
+      if(this.roleSearchParams.recordStatus === 'ActiveInActive'){
+        this.searchFilterForm.get('showInActive')?.setValue(true)
+      }
+    }
 
-    // const jsonSearch = this.localStorage.getItem('roleSearchParams');
-
-    // if (jsonSearch != undefined && jsonSearch != null) {
-    //   this.roleSearchParams = JSON.parse(jsonSearch) as roleSearchParams;
-    //   if(this.roleSearchParams.recordStatus === 'ActiveInActive'){
-    //     this.searchFilterForm.get('showInActive').setValue(true)
-    //   }
-    // }
-
-    // // fix double load. code from ngAfterViewInit().
-    // this.searchFilterForm.get('searchUser').setValue(this.roleSearchParams.search);
+    // fix double load. code from ngAfterViewInit().
+    this.searchFilterForm.get('searchRole')?.setValue(this.roleSearchParams.search);
   }
 
   ngAfterViewInit() {
     this.getRoles();
 
-  //   this.fC['searchUser'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
-  //     this.roleSearchParams.pageIndex = 0;
-  //     this.roleSearchParams.search = this.fC['searchUser'].value || '';
-  //     this.getUsers();
-  //   });
+    this.fC['searchRole'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
+      this.roleSearchParams.pageIndex = 0;
+      this.roleSearchParams.search = this.fC['searchRole'].value || '';
+      this.getRoles();
+    });
 
   //   this.fC['showInActive'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
   //     this.roleSearchParams.pageIndex = 0;
@@ -100,20 +111,18 @@ export class RoleList {
   //       this.roleSearchParams.recordStatus = RecordStatus.ActiveInActive;
   //     }
 
-  //     this.getUsers();
+  //     this.getRoles();
 
   //   });
   }
 
   getRoles() {
-    // const jsonSearch = JSON.stringify(this.roleSearchParams);
-    // this.localStorage.setItem('roleSearchParams', jsonSearch);
+    const jsonSearch = JSON.stringify(this.roleSearchParams);
+    this.#localStorage.setItem('roleSearchParams', jsonSearch);
 
     this.#roleService.getRoles(this.roleSearchParams, this.tenantId || '')
       .subscribe((result) => {
-        console.log(result.data)
         if (result.succeeded) {
-          // this.role = result.data;
           this.role.set(result.data);
           this.paginationData.set(new Page(result.data.totalItem, result.data.pageSize, result.data.pageSize, result.data.currentPage));
         }
@@ -161,7 +170,7 @@ export class RoleList {
   //   });
 
   //   dialogRef.componentInstance.data = {
-  //     title: 'Hapus User',
+  //     title: 'Hapus Role',
   //     question: 'Yakin ingin menghapus data ini?',
   //     content: contentToDelete,
   //     ok: true,
@@ -171,15 +180,15 @@ export class RoleList {
 
   //   dialogRef.closed.subscribe((result) => {
   //       if (result === true) {
-  //           this.deleteUser(id);
+  //           this.deleteRole(id);
   //       }
   //   });
   // }
 
-  // deleteUser(id){
-  //   this.userService.deleteUser(id).subscribe(response => {
+  // deleteRole(id){
+  //   this.userService.deleteRole(id).subscribe(response => {
   //     if (response.succeeded) {
-  //       this.getUsers();
+  //       this.getRoles();
   //       this.toastr.success(response.messages[0]);
   //     } else {
   //       this.toastr.error(response.messages[0]);
@@ -187,7 +196,7 @@ export class RoleList {
   //   })
   // }
 
-  // get fC() { return this.searchFilterForm.controls; }
+  get fC() { return this.searchFilterForm.controls; }
 
   // openDetail(userId: string): void {
   //   this.router.navigateByUrl('admin/identity/user/detail/' + userId);

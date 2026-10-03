@@ -1,23 +1,30 @@
-<!-- <p>tenant-list works!</p> -->
-<!-- @if (tenant(); as t) {
-  @for (item of t.items; track item.tenantId) {
-    <div>{{ item.nama }}</div>
-  }
-} -->
+<div class="p-2">
+  <app-search-bar
+    [control]="searchFilterForm.controls.searchTenant"
+    placeholder="Cari Tenant..."
+    label="Cari Tenant" />
+</div>
+
 <app-datatable
-    id="table-user"
-    [columns]="columnTable()"
-    [columnMode]="columnModeDatatable.flex"
-    [rows]="tenant().items"
-    [paginationData]="paginationData()"
-    (sort)="onSortColumn($event)"
-    (entriesChange)="onEntriesChange($event)"
-    (navPositionChange)="onPaginationChange($event)"
-    [isNewLayout]="true"
+  id="table-user"
+  [columns]="columnTable()"
+  [columnMode]="columnModeDatatable.flex"
+  [rows]="tenant().items"
+  [paginationData]="paginationData()"
+  (sort)="onSortColumn($event)"
+  (entriesChange)="onEntriesChange($event)"
+  (navPositionChange)="onPaginationChange($event)"
+  [isNewLayout]="true"
 ></app-datatable>
 
-<ng-template #nameRow let-row="row" let-value="value">
-    <div class="d-flex flex-column justify-content-center position-relative h-100">
-        <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.tenantId }}">{{ value }}</a>
-    </div>
+<ng-template #kodeRow let-row="row" let-value="value">
+  <div class="d-flex flex-column justify-content-center position-relative h-100">
+    <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.tenantId }}">{{ value }}</a>
+  </div>
+</ng-template>
+
+<ng-template #namaRow let-row="row" let-value="value">
+  <div class="d-flex flex-column justify-content-center position-relative h-100">
+    <a class="link-detail text-primary cursor-pointer m-0" routerLink="{{ row.tenantId }}">{{ value }}</a>
+  </div>
 </ng-template>

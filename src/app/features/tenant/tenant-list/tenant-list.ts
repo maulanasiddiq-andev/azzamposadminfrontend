@@ -8,9 +8,12 @@ import { Datatable } from '../../../shared/datatable/datatable';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { Page } from '../../../shared/datatable/datatable.model';
 import { RouterLink } from '@angular/router';
+import { debounceTime } from 'rxjs';
+import { LocalStorageService } from '../../../core/services/local-storage-service';
+import { SearchBar } from '../../../shared/search-bar/search-bar';
 
 @Component({
-  imports: [ReactiveFormsModule, Datatable, RouterLink],
+  imports: [ReactiveFormsModule, Datatable, RouterLink, SearchBar],
   selector: 'app-tenant-list',
   styleUrl: './tenant-list.scss',
   templateUrl: './tenant-list.html',
@@ -18,31 +21,32 @@ import { RouterLink } from '@angular/router';
 export class TenantList implements OnInit {
   readonly #fb = inject(NonNullableFormBuilder);
   readonly #tenantService = inject(TenantService);
+  readonly #localStorage = inject(LocalStorageService);
 
-  readonly searchFilterForm = this.#fb.group({
-    searchUser: '',
+  searchFilterForm = this.#fb.group({
+    searchTenant: '',
     showInActive: false,
   });
   
   columnModeDatatable = ColumnMode;
   // roleModulName = RoleModulName;
-  // columnTable: any[] = [];
   tenant = signal<SearchResponse<Tenant>>(new SearchResponse<Tenant>());
   // showFilter = false;
 
   tenantSearchParams = new SearchParams();
   paginationData = signal(new Page(0));
 
-  // //PropertiRows
-  nameRow = viewChild.required<TemplateRef<any>>('nameRow');
+  // PropertiRows
+  kodeRow = viewChild.required<TemplateRef<any>>('kodeRow');
 
   columnTable = computed(() =>[
     {
-      name: "Nama",
-      prop: "nama",
-      sortBy: "nama",
-      flexGrow: 2,
-      cellTemplate: this.nameRow(),
+      name: "Kode",
+      prop: "kode",
+      // prop is referring to the properties fetched from the API response
+      sortBy: "kode",
+      flexGrow: 1,
+      cellTemplate: this.kodeRow(),
       searchable: true,
       orderable: false,
       resizeable: false,
@@ -52,40 +56,65 @@ export class TenantList implements OnInit {
           value: "",
           regex: false
       }
-    }
+    },
+    {
+      name: "Nama",
+      prop: "nama",
+      sortBy: "nama",
+      flexGrow: 1,
+      searchable: true,
+      orderable: false,
+      resizeable: false,
+      sortable: true,
+      canAutoResize: true,
+      search: {
+          value: "",
+          regex: false
+      }
+    },
+    {
+      name: "Deskripsi",
+      prop: "deskripsi",
+      sortBy: "deskripsi",
+      flexGrow: 3,
+      searchable: true,
+      orderable: false,
+      resizeable: false,
+      sortable: false,
+      canAutoResize: true,
+      search: {
+          value: "",
+          regex: false
+      }
+    },
   ])
 
   ngOnInit(): void {
     // this.tenant = new SearchResponse<Tenant>();
 
-    // this.searchFilterForm = this.formBuilder.group({
-    //   searchUser: '',
-    //   showInActive: false
-    // });
+    this.tenantSearchParams.sortBy = 'nama';
 
-    // this.tenantSearchParams.sortBy = 'username';
+    const jsonSearch = this.#localStorage.getItem('tenantSearchParams');
 
-    // const jsonSearch = this.localStorage.getItem('tenantSearchParams');
+    if (jsonSearch != undefined && jsonSearch != null) {
+      this.tenantSearchParams = JSON.parse(jsonSearch) as SearchParams;
+      if(this.tenantSearchParams.recordStatus === 'ActiveInActive'){
+        this.searchFilterForm.get('showInActive')?.setValue(true)
+      }
+    }
 
-    // if (jsonSearch != undefined && jsonSearch != null) {
-    //   this.tenantSearchParams = JSON.parse(jsonSearch) as tenantSearchParams;
-    //   if(this.tenantSearchParams.recordStatus === 'ActiveInActive'){
-    //     this.searchFilterForm.get('showInActive').setValue(true)
-    //   }
-    // }
-
-    // // fix double load. code from ngAfterViewInit().
-    // this.searchFilterForm.get('searchUser').setValue(this.tenantSearchParams.search);
+    // fix double load. code from ngAfterViewInit().
+    this.searchFilterForm.get('searchTenant')?.setValue(this.tenantSearchParams.search);
   }
 
   ngAfterViewInit() {
     this.getTenants();
 
-  //   this.fC['searchUser'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
-  //     this.tenantSearchParams.pageIndex = 0;
-  //     this.tenantSearchParams.search = this.fC['searchUser'].value || '';
-  //     this.getUsers();
-  //   });
+    this.fC['searchTenant'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
+      this.tenantSearchParams.pageIndex = 0;
+      this.tenantSearchParams.search = this.fC['searchTenant'].value || '';
+      this.getTenants();
+    });
 
   //   this.fC['showInActive'].valueChanges.pipe(debounceTime(700)).subscribe((value) => {
   //     this.tenantSearchParams.pageIndex = 0;
@@ -100,15 +129,18 @@ export class TenantList implements OnInit {
   //   });
   }
 
+  clearSearch(input: HTMLInputElement) {
+    this.searchFilterForm.controls.searchTenant.reset(); // back to '' (non-nullable)
+    input.focus();
+  }
+
   getTenants() {
-    // const jsonSearch = JSON.stringify(this.tenantSearchParams);
-    // this.localStorage.setItem('tenantSearchParams', jsonSearch);
+    const jsonSearch = JSON.stringify(this.tenantSearchParams);
+    this.#localStorage.setItem('tenantSearchParams', jsonSearch);
 
     this.#tenantService.getTenants(this.tenantSearchParams)
       .subscribe((result) => {
-        console.log(result.data)
         if (result.succeeded) {
-          // this.tenant = result.data;
           this.tenant.set(result.data);
           this.paginationData.set(new Page(result.data.totalItem, result.data.pageSize, result.data.pageSize, result.data.currentPage));
         }
@@ -121,7 +153,6 @@ export class TenantList implements OnInit {
   }
 
   onPaginationChange(val){
-    console.log(val)
     this.tenantSearchParams.pageIndex = val;
     this.getTenants();
   }
@@ -182,7 +213,7 @@ export class TenantList implements OnInit {
   //   })
   // }
 
-  // get fC() { return this.searchFilterForm.controls; }
+  get fC() { return this.searchFilterForm.controls; }
 
   // openDetail(userId: string): void {
   //   this.router.navigateByUrl('admin/identity/user/detail/' + userId);
